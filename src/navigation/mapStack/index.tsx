@@ -6,6 +6,7 @@ import MapView from '../../features/map/mapView';
 const MapStackNavigator = createStackNavigator<MapStackParamList>();
 
 const MapStack = () => {
+  console.log('render');
   return (
     <MapStackNavigator.Navigator>
       <MapStackNavigator.Screen name="Map" component={MapView} />
