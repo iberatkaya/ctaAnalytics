@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 import React, { useMemo } from 'react';
-import RNMapView, { LatLng, Marker, Polyline } from 'react-native-maps';
-import { convertRideDataToColor, parseLocationString, sortLineData } from '../utils';
+import RNMapView, { LatLng, Marker } from 'react-native-maps';
+import { convertRideDataToColor, parseLocationString } from '../utils';
 import { useAtomValue } from 'jotai';
 import { stationAtom } from '../../../jotai/atoms/stationAtom';
 import { useNavigation } from '@react-navigation/native';
