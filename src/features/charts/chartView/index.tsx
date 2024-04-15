@@ -6,6 +6,7 @@ import { MapStackParamList } from '../../../navigation/types';
 import { useAtomValue } from 'jotai';
 import { stationAverageAtom } from '../../../jotai/atoms/stationAverageAtom';
 import moment from 'moment';
+import { convertRideDataToGraphColors } from '../../map/utils';
 
 const ChartView = () => {
   const navigation = useNavigation<NavigationProp<MapStackParamList, 'Chart'>>();
@@ -16,13 +17,14 @@ const ChartView = () => {
   const stationAverageData = useAtomValue(stationAverageAtom);
 
   const data = useMemo(
-    () => stationAverageData.filter((i) => i.station_id === station.MAP_ID),
+    () => stationAverageData.filter((i) => i.station_id === station.MAP_ID && i.monthtotal !== 0),
     [station.MAP_ID, stationAverageData],
   );
 
   useEffect(() => {
     navigation.setOptions({
       title: station.STOP_NAME,
+      headerTintColor: convertRideDataToGraphColors(station).lineColor,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -34,12 +36,10 @@ const ChartView = () => {
 
   const floorToThousand = (value: number) => Math.ceil(value / 1000) * 1000;
 
-  // maxValue = noOfSections * stepValue;
   return (
     <View>
       <View>
         <LineChart
-          // xAxisLabelTextStyle={}
           yAxisLabelWidth={60}
           initialSpacing={20}
           width={width - 60}
@@ -48,10 +48,10 @@ const ChartView = () => {
           yAxisExtraHeight={24}
           spacing={width * 0.11 > 50 ? width * 0.11 : 50}
           textColor1="black"
-          startFillColor="#3982f7"
-          startOpacity={0.45}
-          endFillColor="#3982f7"
-          endOpacity={0.15}
+          startFillColor={convertRideDataToGraphColors(station).gradientStart}
+          startOpacity={0.6}
+          endFillColor={convertRideDataToGraphColors(station).gradientEnd}
+          endOpacity={0.2}
           textFontSize1={10}
           curved
           areaChart
@@ -59,12 +59,10 @@ const ChartView = () => {
           thickness={3}
           noOfSections={10}
           stepValue={floorToThousand(Math.ceil(maxVal / 10)) + 5000}
-          // hideRules
-          // hideYAxisText
           yAxisColor="black"
           xAxisColor="black"
-          color="#3982f7"
-          dataPointsColor="#090a7a"
+          color={convertRideDataToGraphColors(station).lineColor}
+          dataPointsColor="#090a3a"
           dataPointsRadius={4}
           data={data.map((i) => ({
             value: i.monthtotal,
