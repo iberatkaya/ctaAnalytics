@@ -2,14 +2,18 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { MapStackParamList } from '../types';
 import MapView from '../../features/map/mapView';
+import ChartView from '../../features/charts/chartView';
 
 const MapStackNavigator = createStackNavigator<MapStackParamList>();
 
 const MapStack = () => {
-  console.log('render');
   return (
-    <MapStackNavigator.Navigator>
+    <MapStackNavigator.Navigator
+      screenOptions={{
+        headerBackTitle: ' ',
+      }}>
       <MapStackNavigator.Screen name="Map" component={MapView} />
+      <MapStackNavigator.Screen name="Chart" component={ChartView} />
     </MapStackNavigator.Navigator>
   );
 };
