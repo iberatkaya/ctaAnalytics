@@ -9,7 +9,9 @@ const MainStackNavigator = createStackNavigator<RootStackParamList>();
 const MainNavigationStack = () => {
   return (
     <NavigationContainer>
-      <MainStackNavigator.Screen name="MapStack" component={MapStack} />
+      <MainStackNavigator.Navigator>
+        <MainStackNavigator.Screen name="MapStack" component={MapStack} />
+      </MainStackNavigator.Navigator>
     </NavigationContainer>
   );
 };
