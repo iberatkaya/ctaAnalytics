@@ -9,7 +9,10 @@ const MainStackNavigator = createStackNavigator<RootStackParamList>();
 const MainNavigationStack = () => {
   return (
     <NavigationContainer>
-      <MainStackNavigator.Navigator>
+      <MainStackNavigator.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
         <MainStackNavigator.Screen name="MapStack" component={MapStack} />
       </MainStackNavigator.Navigator>
     </NavigationContainer>

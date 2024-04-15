@@ -4054,7 +4054,7 @@
     "STATION_DESCRIPTIVE_NAME": "Sheridan (Red Line)",
     "MAP_ID": 40080,
     "ADA": false,
-    "RED": false,
+    "RED": true,
     "BLUE": false,
     "G": false,
     "BRN": false,
