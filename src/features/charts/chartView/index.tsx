@@ -159,6 +159,7 @@ const ChartView = () => {
           </Text>
         </View>
         <View style={styles.divider} />
+        <Text style={styles.axisLabel}>Total Average{'\n'}Ridership</Text>
         <LineChart
           scrollRef={scrollRef}
           yAxisLabelWidth={60}

@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import React, { useMemo } from 'react';
-import RNMapView, { LatLng, Marker } from 'react-native-maps';
+import RNMapView, { LatLng, Marker, Polyline } from 'react-native-maps';
 import { convertRideDataToColor, parseLocationString } from '../utils';
 import { useAtomValue } from 'jotai';
 import { stationAtom } from '../../../jotai/atoms/stationAtom';
@@ -9,6 +9,7 @@ import { MapStackParamList } from '../../../navigation/types';
 import { StationData } from '../../../types/station_data';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { MarkerData } from './types';
+import Lines from '../../../assets/lines.json';
 
 const MapView = () => {
   const stations = useAtomValue(stationAtom);
@@ -56,7 +57,7 @@ const MapView = () => {
             key={index}
             pinColor={marker.pinColor}
             coordinate={marker.latlng}
-            title={marker.title}
+            title={marker.station.MAP_ID + ' - ' + marker.title}
             description={marker.description}
             onCalloutPress={() => {
               navigation.navigate('Chart', {
@@ -66,6 +67,24 @@ const MapView = () => {
             pointerEvents="auto"
           />
         ))}
+        {stations.length > 0 &&
+          Object.entries(Lines).map(([key, val], index) => {
+            return (
+              <Polyline
+                coordinates={val
+                  .map((i) => stations.find((j) => i === j.MAP_ID))
+                  .map((i) => {
+                    const vals = parseLocationString(i?.Location);
+                    return {
+                      latitude: vals[0],
+                      longitude: vals[1],
+                    };
+                  })}
+                strokeColor={key} // fallback for when `strokeColors` is not supported by the map-provider
+                strokeWidth={3}
+              />
+            );
+          })}
       </RNMapView>
     </View>
   );
