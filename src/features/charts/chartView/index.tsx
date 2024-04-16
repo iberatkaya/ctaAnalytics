@@ -14,7 +14,9 @@ import { stationAverageAtom } from '../../../jotai/atoms/stationAverageAtom';
 import moment from 'moment';
 import {
   capitalizeFirstLetter,
+  convertLineToColor,
   convertRideDataToGraphColors,
+  formatNumber,
   supportedLinesFromArray,
 } from '../../map/utils';
 import Animated, { FadeIn } from 'react-native-reanimated';
@@ -23,6 +25,9 @@ import { StationAverageData } from '../../../types/station_average_data';
 import { Options } from './types';
 import styles from './styles';
 import { stationAtom } from '../../../jotai/atoms/stationAtom';
+import { LinearGradient, Stop } from 'react-native-svg';
+import LineLinearGradient from './components/lineLinearGradient';
+import AreaLinearGradient from './components/areaLinearGradient';
 
 const ChartView = () => {
   const navigation = useNavigation<NavigationProp<MapStackParamList, 'Chart'>>();
@@ -148,7 +153,7 @@ const ChartView = () => {
             <Text style={{ fontSize: 16 }}>Supported Lines: </Text>
             {supportedLinesFromArray(allStationsData).map((i, index) => (
               <>
-                <Text key={i} style={{ color: i }}>
+                <Text key={i} style={{ color: convertLineToColor(i) }}>
                   {capitalizeFirstLetter(i)}
                 </Text>
                 <Text>
@@ -159,27 +164,35 @@ const ChartView = () => {
           </Text>
         </View>
         <View style={styles.divider} />
-        <Text style={styles.axisLabel}>Total Average{'\n'}Ridership</Text>
+        <Text style={styles.axisLabel}>Monthly Average{'\n'}Ridership</Text>
         <LineChart
           scrollRef={scrollRef}
-          yAxisLabelWidth={60}
+          yAxisLabelWidth={52}
           initialSpacing={20}
-          width={width - 60}
+          width={width - 52}
           xAxisLabelTextStyle={{ width: 56 }}
           stepHeight={36}
           yAxisExtraHeight={24}
           spacing={chartSpacing}
           textColor1="black"
-          startFillColor={convertRideDataToGraphColors(station).gradientStart}
-          startOpacity={0.6}
-          endFillColor={convertRideDataToGraphColors(station).gradientEnd}
-          endOpacity={0.2}
           textFontSize1={10}
           curved
           areaChart
           isAnimated
           showXAxisIndices
           xAxisIndicesWidth={1.5}
+          hideDataPoints
+          lineGradient
+          lineGradientId="line" // same as the id passed in <LinearGradient> below
+          // eslint-disable-next-line react/no-unstable-nested-components
+          lineGradientComponent={() => (
+            <LineLinearGradient stationData={allStationsData} id="line" />
+          )}
+          areaGradientId="area" // same as the id passed in <LinearGradient> below
+          // eslint-disable-next-line react/no-unstable-nested-components
+          areaGradientComponent={() => (
+            <AreaLinearGradient stationData={allStationsData} id={'area'} />
+          )}
           xAxisIndicesHeight={4}
           showVerticalLines
           verticalLinesUptoDataPoint
@@ -191,6 +204,7 @@ const ChartView = () => {
           color={convertRideDataToGraphColors(station).lineColor}
           dataPointsColor="#090a3a"
           dataPointsRadius={4}
+          formatYLabel={(label) => formatNumber(parseInt(label, 10))}
           data={data.map((i, index) => ({
             value: i.monthtotal,
             label: getLabelText(i, index),
