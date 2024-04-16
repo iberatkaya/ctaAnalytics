@@ -27,6 +27,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#ccc',
     marginBottom: 12,
   },
+  axisLabel: {
+    textAlign: 'center',
+    width: 120,
+    fontSize: 12,
+    marginBottom: 8,
+  },
 });
 
 export default styles;
