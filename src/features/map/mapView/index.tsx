@@ -1,7 +1,12 @@
 import { View, StyleSheet } from 'react-native';
 import React, { useMemo } from 'react';
 import RNMapView, { LatLng, Marker, Polyline } from 'react-native-maps';
-import { convertRideDataToColor, parseLocationString } from '../utils';
+import {
+  allLinesInStationCount,
+  convertRideDataToColor,
+  parseLocationString,
+  supportedLinesFromArray,
+} from '../utils';
 import { useAtomValue } from 'jotai';
 import { stationAtom } from '../../../jotai/atoms/stationAtom';
 import { useNavigation } from '@react-navigation/native';
@@ -51,6 +56,8 @@ const MapView = () => {
           latitudeDelta: 0.12,
           longitudeDelta: 0.12,
         }}
+        mapType="mutedStandard"
+        showsPointsOfInterest={false}
         style={StyleSheet.absoluteFillObject}>
         {markers.map((marker, index) => (
           <Marker
@@ -68,19 +75,32 @@ const MapView = () => {
           />
         ))}
         {stations.length > 0 &&
-          Object.entries(Lines).map(([key, val], index) => {
+          Object.entries(Lines).map(([key, val]) => {
+            const myStations = val.map((i) => stations.find((j) => i === j.MAP_ID));
             return (
               <Polyline
-                coordinates={val
-                  .map((i) => stations.find((j) => i === j.MAP_ID))
-                  .map((i) => {
-                    const vals = parseLocationString(i?.Location);
-                    return {
-                      latitude: vals[0],
-                      longitude: vals[1],
-                    };
-                  })}
-                strokeColor={key} // fallback for when `strokeColors` is not supported by the map-provider
+                coordinates={myStations.map((i) => {
+                  const vals = i?.Location ? parseLocationString(i?.Location) : [0, 0];
+                  const items = stations.filter((j) => j.MAP_ID === i?.MAP_ID);
+                  const lineItems = supportedLinesFromArray(items);
+                  const total = lineItems.length;
+                  const lineIndex = lineItems.findIndex((j) => j === key);
+                  const distanceMultiplier = 0.000035;
+
+                  return {
+                    latitude:
+                      vals[0] +
+                      (total % 2 === 0
+                        ? (lineIndex - (total / 2 - 0.5)) * distanceMultiplier
+                        : (lineIndex - Math.floor(total / 2)) * distanceMultiplier),
+                    longitude:
+                      vals[1] +
+                      (total % 2 === 0
+                        ? (lineIndex - (total / 2 - 0.5)) * distanceMultiplier
+                        : (lineIndex - Math.floor(total / 2)) * distanceMultiplier),
+                  };
+                })}
+                strokeColor={key}
                 strokeWidth={3}
               />
             );
