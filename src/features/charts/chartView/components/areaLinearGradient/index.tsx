@@ -9,7 +9,7 @@ const AreaLinearGradient = ({ stationData, id }: { stationData: StationData[]; i
       {supportedLinesFromArray(stationData).map((i, index, arr) => {
         return (
           <Stop
-            offset={index / arr.length}
+            offset={(index + 0.5) / arr.length}
             stopColor={convertLineToColor(i)}
             key={index}
             stopOpacity={0.4}

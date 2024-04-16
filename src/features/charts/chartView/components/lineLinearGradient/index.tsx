@@ -7,7 +7,7 @@ const LineLinearGradient = ({ stationData, id }: { stationData: StationData[]; i
   return (
     <LinearGradient id={id} x1="0" y1="0" x2="1" y2="0">
       {supportedLinesFromArray(stationData).map((i, index, arr) => (
-        <Stop offset={index / arr.length} stopColor={convertLineToColor(i)} key={index} />
+        <Stop offset={(index + 0.5) / arr.length} stopColor={convertLineToColor(i)} key={index} />
       ))}
     </LinearGradient>
   );
