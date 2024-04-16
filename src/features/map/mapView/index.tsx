@@ -64,7 +64,7 @@ const MapView = () => {
             key={index}
             pinColor={marker.pinColor}
             coordinate={marker.latlng}
-            title={marker.station.MAP_ID + ' - ' + marker.title}
+            title={marker.title}
             description={marker.description}
             onCalloutPress={() => {
               navigation.navigate('Chart', {
