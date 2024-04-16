@@ -15,7 +15,6 @@ import moment from 'moment';
 import {
   capitalizeFirstLetter,
   convertRideDataToGraphColors,
-  supportedLines,
   supportedLinesFromArray,
 } from '../../map/utils';
 import Animated, { FadeIn } from 'react-native-reanimated';
@@ -96,9 +95,9 @@ const ChartView = () => {
         return index % 4 === 0 ? moment(i.month_beginning, 'mm/dd/yyyy').format('mm/yyyy') : '';
       }
       if (option === 'ten-years') {
-        return index % 10 === 0 ? moment(i.month_beginning, 'mm/dd/yyyy').format('mm/yyyy') : '';
+        return index % 5 === 0 ? moment(i.month_beginning, 'mm/dd/yyyy').format('mm/yyyy') : '';
       }
-      return index % 24 === 0 ? moment(i.month_beginning, 'mm/dd/yyyy').format('mm/yyyy') : '';
+      return index % 6 === 0 ? moment(i.month_beginning, 'mm/dd/yyyy').format('mm/yyyy') : '';
     },
     [option],
   );
