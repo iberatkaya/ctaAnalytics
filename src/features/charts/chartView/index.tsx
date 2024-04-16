@@ -25,7 +25,6 @@ import { StationAverageData } from '../../../types/station_average_data';
 import { Options } from './types';
 import styles from './styles';
 import { stationAtom } from '../../../jotai/atoms/stationAtom';
-import { LinearGradient, Stop } from 'react-native-svg';
 import LineLinearGradient from './components/lineLinearGradient';
 import AreaLinearGradient from './components/areaLinearGradient';
 
@@ -150,7 +149,9 @@ const ChartView = () => {
         />
         <View style={styles.supportedLines}>
           <Text numberOfLines={2} style={{ textAlign: 'center' }}>
-            <Text style={{ fontSize: 16 }}>Supported Lines: </Text>
+            <Text style={{ fontSize: 16 }}>
+              '<Text style={{ fontWeight: 'bold' }}>L</Text>' Lines:{' '}
+            </Text>
             {supportedLinesFromArray(allStationsData).map((i, index) => (
               <>
                 <Text key={i} style={{ color: convertLineToColor(i) }}>
@@ -179,21 +180,18 @@ const ChartView = () => {
           curved
           areaChart
           isAnimated
-          showXAxisIndices
-          xAxisIndicesWidth={1.5}
           hideDataPoints
           lineGradient
-          lineGradientId="line" // same as the id passed in <LinearGradient> below
+          lineGradientId="line"
           // eslint-disable-next-line react/no-unstable-nested-components
           lineGradientComponent={() => (
             <LineLinearGradient stationData={allStationsData} id="line" />
           )}
-          areaGradientId="area" // same as the id passed in <LinearGradient> below
+          areaGradientId="area"
           // eslint-disable-next-line react/no-unstable-nested-components
           areaGradientComponent={() => (
             <AreaLinearGradient stationData={allStationsData} id={'area'} />
           )}
-          xAxisIndicesHeight={4}
           showVerticalLines
           verticalLinesUptoDataPoint
           thickness={3}
@@ -202,8 +200,6 @@ const ChartView = () => {
           yAxisColor="black"
           xAxisColor="black"
           color={convertRideDataToGraphColors(station).lineColor}
-          dataPointsColor="#090a3a"
-          dataPointsRadius={4}
           formatYLabel={(label) => formatNumber(parseInt(label, 10))}
           data={data.map((i, index) => ({
             value: i.monthtotal,
