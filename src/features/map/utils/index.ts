@@ -9,6 +9,28 @@ export const parseLocationString = (str: string): [number, number] => {
   return [parseFloat(nums[0]), parseFloat(nums[1])];
 };
 
+export const supportedLines = (data: StationData) => {
+  const lines: string[] = [];
+  if (data.BLUE) lines.push('blue');
+  if (data.BRN) lines.push('brown');
+  if (data.G) lines.push('green');
+  if (data.O) lines.push('orange');
+  if (data.Pnk) lines.push('pink');
+  if (data.RED) lines.push('red');
+  if (data.Y) lines.push('yellow');
+  if (data.STATION_DESCRIPTIVE_NAME.toLowerCase().includes('purple line')) lines.push('purple');
+
+  return lines;
+};
+
+export const supportedLinesFromArray = (data: StationData[]) => {
+  let items: string[] = [];
+  for (let i of data) {
+    items.push(...supportedLines(i));
+  }
+  return [...new Set(items)];
+};
+
 export const convertRideDataToColor = (data: StationData) => {
   if (data.BLUE) return 'blue';
   if (data.BRN) return 'brown';
@@ -91,4 +113,8 @@ export const convertRideDataToGraphColors = (
     gradientEnd: 'black',
     gradientStart: 'black',
   };
+};
+
+export const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 };

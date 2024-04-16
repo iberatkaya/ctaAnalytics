@@ -12,7 +12,13 @@ const MapStack = () => {
       screenOptions={{
         headerBackTitle: ' ',
       }}>
-      <MapStackNavigator.Screen name="Map" component={MapView} />
+      <MapStackNavigator.Screen
+        name="Map"
+        component={MapView}
+        options={{
+          headerTitle: 'CTA Ridership Analytics',
+        }}
+      />
       <MapStackNavigator.Screen name="Chart" component={ChartView} />
     </MapStackNavigator.Navigator>
   );
