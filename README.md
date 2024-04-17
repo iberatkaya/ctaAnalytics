@@ -15,16 +15,6 @@ The CTA Analytics app shows the average monthly ridership for CTA stops for the 
 - [x] View average monthly ridership data in a graph with colorful gradients.
 - [x] Filter the data by 1 year, 5 years, 10 years, or all.
 
-## Screenshots
-
-<p align="center">
-    <img alt="Screenshot" src="https://raw.githubusercontent.com/iberatkaya/ctaAnalytics/main/screenshots/1.jpg" width="320" >
-    <img alt="Screenshot" src="https://raw.githubusercontent.com/iberatkaya/ctaAnalytics/main/screenshots/2.jpg" width="320" >
-    <img alt="Screenshot" src="https://raw.githubusercontent.com/iberatkaya/ctaAnalytics/main/screenshots/3.jpg" width="320" >
-    <img alt="Screenshot" src="https://raw.githubusercontent.com/iberatkaya/ctaAnalytics/main/screenshots/4.jpg" width="320" >
-    <img alt="Screenshot" src="https://raw.githubusercontent.com/iberatkaya/ctaAnalytics/main/screenshots/5.jpg" width="320" >
-</p>
-
 ## Sources
 
 - https://data.cityofchicago.org/Transportation/CTA-System-Information-List-of-L-Stops/8pix-ypme/about_data
